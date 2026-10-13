@@ -56,18 +56,23 @@ except ImportError:  # run as a plain script: usb_cam/ itself is on sys.path
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 DROIDCAM_PORT = 4747
-DEFAULT_CAMERA_PROFILE = "iphone16wide"
+DEFAULT_CAMERA_PROFILE = "iphone14"
 # A calibration belongs to one capture pipeline, not just to one phone: the
 # DroidCam->OBS path and macOS Continuity Camera can pick different lenses
 # and crops off the same handset, so each gets its own directory and the
 # "_continuity" suffix is the transport, not a second lens.
 CONTINUITY_SUFFIX = "_continuity"
+
+#added more things here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 CAMERA_PROFILE_DIRS = {
     "iphone13wide": "iphone13wide",
+    "iphone14" : "iphone14",
     "iphone16wide": "iphone16wide",
     "iphone13wide_continuity": "iphone13wide_continuity",
     "iphone16wide_continuity": "iphone16wide_continuity",
 }
+
+
 CAMERA_PROFILE_ALIASES = {
     "1x": "iphone13wide",
     "0.5x": "iphone16wide",
@@ -77,6 +82,7 @@ CAMERA_PROFILE_ALIASES = {
 # families overlap the neighbouring model year (iPhone14,7 is an iPhone 14),
 # which only matters when two phones of one family are attached at once --
 # find_direct_iphone_cam() refuses that rather than guessing.
+
 PROFILE_MODEL_PREFIXES = {
     "iphone13wide": ("iPhone14,",),
     "iphone16wide": ("iPhone17,",),
@@ -209,7 +215,7 @@ def preflight(source, calib_path, allow_mismatch):
     import numpy as np
 
     data = np.load(calib_path)
-    cal_w, cal_h = int(data["image_w"]), int(data["image_h"])
+    cal_w, cal_h = int(data["image_width"]), int(data["image_height"])
 
     cap = open_capture(source)
     ok, frame = cap.read() if cap.isOpened() else (False, None)

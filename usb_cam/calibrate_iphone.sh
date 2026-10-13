@@ -59,6 +59,11 @@ case "$REQUESTED_PROFILE" in
         PROFILE="iphone16wide"
         OUTDIR="$DIR/iphone16wide"
         ;;
+#Added a new profile for the iphone14 camera 
+    iphone14)
+        PROFILE="iphone14"
+        OUTDIR="$DIR/iphone14"
+        ;;
     iphone13wide_continuity|iphone16wide_continuity)
         PROFILE="$REQUESTED_PROFILE"
         OUTDIR="$DIR/$REQUESTED_PROFILE"
@@ -160,14 +165,15 @@ import sys
 import cv2
 
 sys.path.insert(0, sys.argv[3])
-from usb_cam.track_rov_topview import capture_backend, resolve_capture_device
+#changed to allow the handling of the avf identifier on macOS, which is not a /dev/video* device. The open_capture function will handle the avf: identifier and return a valid cv2.VideoCapture object.
+from usb_cam.track_rov_topview import open_capture 
 
 source, expect = sys.argv[1], sys.argv[2]
 want_w, want_h = (int(v) for v in expect.split("x"))
-if source.startswith(("http://", "rtsp://")):
-    cap = cv2.VideoCapture(source)
-else:
-    cap = cv2.VideoCapture(resolve_capture_device(source), capture_backend())
+
+#Same idea here, it uses open_capture to handle the avf: identifier and return a valid cv2.VideoCapture object.
+cap = open_capture(source)
+
 ok, frame = cap.read() if cap.isOpened() else (False, None)
 cap.release()
 if not ok:
@@ -193,10 +199,13 @@ fi
 # itself (SPACE still works) — this session is one person holding a phone
 # rig AND a board. --require-coverage: an iPhone calibration with edge gaps
 # is exactly the folded-model failure calibrate.sh documents, so refuse it.
+
+##Note the changed checker board size from (cols 10 --rows 8 --board-units auto --square 0.20)
+## Here is where you need to update the checker board size to match the one you are using for calibration. The current values are set for a 9x7 checkerboard with square size of 0.025 meters
 exec "$PYTHON" "$DIR/../calibrate_camera.py" \
     --device "$SOURCE" \
     --cam-fps 0 \
-    --cols 10 --rows 8 --board-units auto --square 0.20 \
+    --cols 9 --rows 7 --board-units squares --square 0.025 \
     --model rational \
     --auto-capture 1.5 \
     --require-coverage \

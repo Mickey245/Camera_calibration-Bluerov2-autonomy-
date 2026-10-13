@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+#Milkias Negash Updated 2026-08-04: 4-tag pool frame layout, measured from the tags themselves.
+
 """
 Single source of truth for the four-tag pool frame (04.08.2026 layout).
 
@@ -36,28 +39,28 @@ from itertools import combinations
 # Tag IDs at the four rectangle corners.  "origin" is pool (0, 0).
 POOL_RECT = {
     "corners": {
-        "origin": 100,      # near-left  (camera side, left)  -> (0, 0)
-        "x_axis": 102,      # near-right (camera side, right) -> (x_edge, 0)
-        "y_axis": 501,      # far-left                        -> (0, y_edge)
-        "diagonal": 500,    # far-right                  -> (x_edge, y_edge)
+        "origin": 0,      # near-left  (camera side, left)  -> (0, 0)
+        "x_axis": 1,      # near-right (camera side, right) -> (x_edge, 0)
+        "y_axis": 2,      # far-left                        -> (0, y_edge)
+        "diagonal": 3,    # far-right                  -> (x_edge, y_edge)
     },
     # CENTRE-TO-CENTRE distances.  Accept "426cm", "4.26m", or metres.
     #
     # Best-fit rectangle through the tag centres measured on 2026-08-04 (see
     # TAG_LAYOUT below, which is what is actually in force).  Kept so a
     # rectangle is still available if TAG_LAYOUT is ever set back to None.
-    "x_edge_m": "441.3cm",  # origin -> x_axis  (near edge, 100 -> 102)
-    "y_edge_m": "207.7cm",  # origin -> y_axis  (side edge, 100 -> 501)
+    "x_edge_m": "259.08cm",  # origin -> x_axis  (near edge, 100 -> 102)
+    "y_edge_m": "248.92cm",  # origin -> y_axis  (side edge, 100 -> 501)
 }
 
 # Black-square edge length of each reference tag, metres.  Mixed sizes are
 # the whole point: solving a 0.20 m tag as a 0.40 m tag puts it at twice its
 # true range.
 TAG_SIZE_M = {
-    100: 0.20,
-    102: 0.20,
-    501: 0.40,
-    500: 0.40,
+    0: 0.20,
+    1: 0.20,
+    2: 0.20,
+    3: 0.20,
 }
 
 # Tag centres in metres, {id: (x, y)}.  Takes precedence over POOL_RECT.
@@ -88,10 +91,10 @@ TAG_SIZE_M = {
 #
 # Re-measure by running: python3 usb_cam/pool_frame_4tag.py
 TAG_LAYOUT = {
-    100: (0.000, 0.000),    # near-left, origin by construction
-    102: (4.427, 0.000),    # near-right, on +x by construction
-    501: (0.024, 2.038),    # far-left
-    500: (4.423, 2.117),    # far-right
+    0: (0.000, 0.000),    # near-left, origin by construction
+    1: (2.5908, 0.000),    # near-right, on +x by construction
+    2: (0.000, 2.4892),    # far-left
+    3: (2.5908, 2.4892),    # far-right
 }
 
 # Edge length assumed for a tag that is NOT part of the layout (the ROV

@@ -143,10 +143,13 @@ try:
 except ImportError:  # run as a plain script: usb_cam/ itself is on sys.path
     import pool_layout_4tag as pool_layout
 
-DEFAULT_DEVICE = ("/dev/v4l/by-id/usb-Global_Shutter_Camera_"
-                  "Global_Shutter_Camera_01.00.00-video-index0")
-DEFAULT_CALIB = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                             "usb_cam_calibration.npz")
+DEFAULT_DEVICE = "avf:7626645E-4425-469E-9D8B-97E0FA59AC75"
+
+DEFAULT_CALIB = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "iphone14",
+    "calibration.npz"
+)
 APRILTAG_DICT = cv2.aruco.DICT_APRILTAG_36h11
 
 # August 2026 four-tag layout, metres, on the common tag plane: the origin is
@@ -2532,7 +2535,7 @@ def main(argv=None, *, sample_callback=None, stop_event=None,
 
     d = np.load(args.calib)
     K0, dist = d["camera_matrix"].astype(np.float64), d["dist_coeffs"].astype(np.float64)
-    cw, ch = int(d["image_w"]), int(d["image_h"])
+    cw, ch = int(d["image_width"]), int(d["image_height"])
     use_raw_geometry = (
         args.distortion_mode == "raw"
         or (args.distortion_mode == "auto" and len(ref_world) == 2)
