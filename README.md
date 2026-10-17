@@ -25,7 +25,7 @@ Open DroidCam on your iPhone. Enter the network IP shown on the iPhone into the 
 Once connected, click **Start Virtual Camera** in OBS.
 
 ### 5. Edit the Calibration Script
-Edit the `calibrate_iphone.sh` code in the Calibration folder shared on GitHub.
+Edit the `calibrate_iphone.sh` code in the usb_cam folder shared on GitHub.
 - Add your phone profile, similar to how it is done for `iphone14`. You can use one of the other profiles if it fits your phone and lens.
 - If you use a different checkerboard for calibration, update the code based on the board used.
 
