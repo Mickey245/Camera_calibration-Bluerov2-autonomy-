@@ -34,3 +34,29 @@ Under the Calibration folder, run:
 
 ```bash
 ./usb_cam/calibrate_iphone.sh iphone14
+```
+
+----
+
+# Editing Pool Layout steps
+
+Edit `Pool_layout.py`. Things to change are:
+
+1. Change the type and ID of the AprilTags being used.
+2. Change the size of the AprilTags.
+3. Update the distance and placement of the AprilTags.
+  - Set one AprilTag as the origin `(0, 0)`.
+  - Place another AprilTag along the X-axis.
+  - Place another AprilTag along the Y-axis.
+  - Place the last AprilTag diagonally from the origin.
+
+### Running the Tracking Script
+
+Step 1: Navigate to the `usb_cam` directory.
+
+```bash
+cd usb_cam
+```
+```bash
+python3 track_rov_topview.py --dynamic-homography
+```
