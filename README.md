@@ -60,3 +60,4 @@ cd usb_cam
 ```bash
 python3 track_rov_topview.py --dynamic-homography
 ```
+The `--dynamic-homography` flag makes the script re-estimate the homography every frame instead of freezing the robust initial estimate.
